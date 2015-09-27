@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,8 +74,18 @@ public class Get extends AppCompatActivity {
         if (error == null) {
 
             try {
+
                 JSONObject jsonObj = new JSONObject(result);
-                String name= jsonObj.getString("name");
+                JSONArray contacts = jsonObj.getJSONArray("name");
+
+                String name="";
+
+                for (int i = 0; i < contacts.length(); i++) {
+                    JSONObject c = contacts.getJSONObject(i);
+
+                    name +=c.getString("fname")+ " " +c.getString("fname")+"\n";
+
+                }
                 String tol= jsonObj.getString("tol");
 
                 this.name.setText(name);
@@ -87,7 +98,7 @@ public class Get extends AppCompatActivity {
 
 
         } else {
-            Toast t= Toast.makeText(this.getApplicationContext(),"Error",Toast.LENGTH_SHORT);
+            Toast t = Toast.makeText(this.getApplicationContext(),"Error",Toast.LENGTH_SHORT);
             t.show();
         }
     }
